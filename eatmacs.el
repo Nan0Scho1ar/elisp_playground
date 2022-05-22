@@ -29,7 +29,7 @@
            data)))
 
 
-(defun eatmacs-filter-raw-roam-data-by-ids-and-group (data node-ids)
+(defun eatmacs-filter-raw-roam-data-by-ids-then-group (data node-ids)
   "Return all nodes and tags in DATA which are associated with the given NODE-IDS."
   (seq-group-by #'car
                 (seq-filter (lambda (x) (seq-contains-p node-ids (car x)))
@@ -55,7 +55,7 @@
   "Fetch org roam files [id, title, path, [tags]] matching TAG."
   (let* ((data (eatmacs-fetch-raw-org-roam-data))
          (node-ids (eatmacs-filter-raw-org-roam-data-by-tag data tag))
-         (nodes  (eatmacs-filter-raw-roam-data-by-ids-and-group data node-ids)))
+         (nodes  (eatmacs-filter-raw-roam-data-by-ids-then-group data node-ids)))
     (eatmacs-restructure-raw-org-roam-data nodes)))
 
 

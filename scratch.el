@@ -79,4 +79,42 @@
 
 
 
+
+
+
+
+;;  Help lookup
+
+
+(defvar lookup-documentation-history '())
+
+(defun +lookup/documentation-back ()
+  (interactive)
+  (!cdr lookup-documentation-history)
+  (if lookup-documentation-history
+      (let* ((item (format "%S" (read (car lookup-documentation-history)))))
+        (+lookup/documentation item)
+        (message "Showing help for %S" item)
+        (!cdr lookup-documentation-history))
+    (message "No more help history remaining")))
+
+(advice-add #'+lookup/documentation :before
+            (lambda (identifier &rest _)
+              (!cons identifier lookup-documentation-history)))
+
+(map! :map helpful-mode-map :n "p" #'+lookup/documentation-back)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;;; scratch.el ends here
